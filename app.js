@@ -46,6 +46,13 @@ class UI {
     list.appendChild(row);
   }
 
+  static deleteBook(targetElement) {
+    if (targetElement.classList.contains("delete")) {
+      // Get hold of element to be removed
+      targetElement.parentElement.parentElement.remove();
+    }
+  }
+
   static clearFields() {
     document.querySelector("#title").value = "";
     document.querySelector("#author").value = "";
@@ -79,3 +86,7 @@ document.querySelector("#book-form").addEventListener("submit", (e) => {
 });
 
 // Event: Remove Books
+// event propagation: target the actual list and then check if an item in the list contains delete in its class then delete its parent parent of what was clicked. targetig the delete class itself would have deleted just the first item with a delete class
+document.querySelector("#book-list").addEventListener("click", (e) => {
+  UI.deleteBook(e.target);
+});
