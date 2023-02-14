@@ -88,6 +88,13 @@ class Store {
     }
     return books;
   }
+
+  static addBook(book) {
+    const books = Store.getBooks();
+    books.push(book); // add the book passed in to the books in localStorage
+    // reset it to local storage
+    localStorage.setItem("books", JSON.stringify(books)); // wrap books in JSON.stringify to convert it from an array of objects to a string
+  }
 }
 
 /*------------Event: Display Books--------------*/
