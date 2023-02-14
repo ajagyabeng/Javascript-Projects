@@ -11,7 +11,7 @@ class Book {
 class UI {
   /*use static keyword so there wont be a need to instantiate a class*/
   static displayBooks() {
-    const StoredBBooks = [
+    const StoredBooks = [
       {
         title: "Book One",
         author: "James Doe",
@@ -23,6 +23,27 @@ class UI {
         isbn: "485328",
       },
     ];
+
+    const books = StoredBooks;
+
+    books.forEach((book) => UI.addBookToList(book)); //loop through books to add to the list of books to be displayed.
+  }
+
+  static addBookToList(book) {
+    const list = document.querySelector("#book-list");
+
+    // create a table row element to add to table body in html
+    const row = document.createElement("tr");
+
+    // add html columns to row
+    row.innerHTML = `
+    <td>${book.title}</td>
+    <td>${book.author}</td>
+    <td>${book.isbn}</td>
+    <td><a href="#" class="btn btn-danger btn-sm delete"></a></td>
+    `;
+
+    list.appendChild(row);
   }
 }
 
