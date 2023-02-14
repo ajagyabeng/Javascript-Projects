@@ -137,6 +137,10 @@ document.querySelector("#book-list").addEventListener("click", (e) => {
   // remove from UI
   UI.deleteBook(e.target);
 
+  // remove from Local storage
+  const isbn = e.target.parentElement.previousElementSibling.textContent; // get hold of isbn in previous sibling
+  Store.removeBook(isbn);
+
   // Show delete success message
   UI.showAlert("Book Removed", "info");
 });
