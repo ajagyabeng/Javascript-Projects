@@ -40,7 +40,7 @@ class UI {
     <td>${book.title}</td>
     <td>${book.author}</td>
     <td>${book.isbn}</td>
-    <td><a href="#" class="btn btn-danger btn-sm delete"></a></td>
+    <td><a href="#" class="btn btn-danger btn-sm delete">X</a></td>
     `;
 
     list.appendChild(row);
@@ -50,6 +50,7 @@ class UI {
 // Store Class: Handle Storage(Local Storage)
 
 // Event: Display Books
+document.addEventListener("DOMContentLoaded", UI.displayBooks);
 
 // Event: Add Books
 
