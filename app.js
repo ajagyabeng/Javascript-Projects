@@ -95,6 +95,19 @@ class Store {
     // reset it to local storage
     localStorage.setItem("books", JSON.stringify(books)); // wrap books in JSON.stringify to convert it from an array of objects to a string
   }
+  static removeBook(isbn) {
+    const books = Store.getBooks();
+
+    // loop through to check if isbn provided match that of a book and then "slice" it.
+    books.forEach((book, index) => {
+      if (book.isbn === isbn) {
+        books.splice(index, 1);
+      }
+    });
+
+    // reset localStorage
+    localStorage.setItem("books", JSON.stringify(books));
+  }
 }
 
 /*------------Event: Display Books--------------*/
