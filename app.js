@@ -64,6 +64,9 @@ document.querySelector("#book-form").addEventListener("submit", (e) => {
 
   // Instantiate a book object
   const book = new Book(title, author, isbn);
+
+  // Add book to UI
+  UI.addBookToList(book);
 });
 
 // Event: Remove Books
