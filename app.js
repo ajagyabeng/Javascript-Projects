@@ -47,13 +47,28 @@ class UI {
   }
 
   static deleteBook(targetElement) {
+    /*deletes book from UI*/
     if (targetElement.classList.contains("delete")) {
       // Get hold of element to be removed
       targetElement.parentElement.parentElement.remove();
     }
   }
 
+  static showAlert(message, className) {
+    // create div to display alert message
+    const div = document.createElement("div");
+    div.className = `alert alert-${className}`;
+    div.appendChild(document.createTextNode(message));
+    // Grab parent element of where alert should be displayed
+    const container = document.querySelector(".container");
+    const form = document.querySelector("#book-form");
+    container.insertBefore(div, form);
+    // Disappear alert after 3 secs
+    setTimeout(() => document.querySelector(".alert").remove(), 3000);
+  }
+
   static clearFields() {
+    /*Clears input field after submitting*/
     document.querySelector("#title").value = "";
     document.querySelector("#author").value = "";
     document.querySelector("#isbn").value = "";
@@ -75,18 +90,29 @@ document.querySelector("#book-form").addEventListener("submit", (e) => {
   const author = document.querySelector("#author").value;
   const isbn = document.querySelector("#isbn").value;
 
-  // Instantiate a book object
-  const book = new Book(title, author, isbn);
+  //validate input
+  if (title === "" || author === "" || isbn === "") {
+    UI.showAlert("Please fil in all fields", "danger");
+  } else {
+    // Instantiate a book object
+    const book = new Book(title, author, isbn);
 
-  // Add book to UI
-  UI.addBookToList(book);
+    // Add book to UI
+    UI.addBookToList(book);
 
-  // Clear fields
-  UI.clearFields();
+    // Show success message
+    UI.showAlert("Book Added", "success");
+
+    // Clear fields
+    UI.clearFields();
+  }
 });
 
 // Event: Remove Books
 // event propagation: target the actual list and then check if an item in the list contains delete in its class then delete its parent parent of what was clicked. targetig the delete class itself would have deleted just the first item with a delete class
 document.querySelector("#book-list").addEventListener("click", (e) => {
   UI.deleteBook(e.target);
+
+  // Show delete success message
+  UI.showAlert("Book Removed", "info");
 });
