@@ -76,6 +76,19 @@ class UI {
 }
 
 /*-----Store Class: Handle Storage(Local Storage)-----*/
+// local storage stores key value pairs as strings
+class Store {
+  static getBooks() {
+    let books;
+    // check if there is a current book item in local storage
+    if (localStorage.getItem("books") === null) {
+      books = [];
+    } else {
+      books = JSON.parse(localStorage.getItem("books")); // stored as a string so run it through JSON.parse method to use it as a JS array of objects.
+    }
+    return books;
+  }
+}
 
 /*------------Event: Display Books--------------*/
 document.addEventListener("DOMContentLoaded", UI.displayBooks);
