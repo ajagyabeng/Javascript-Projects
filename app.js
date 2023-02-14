@@ -1,4 +1,4 @@
-// Book Class: Represents a Book
+/*--------Book Class: Represents a Book--------*/
 class Book {
   constructor(title, author, isbn) {
     this.title = title;
@@ -7,7 +7,7 @@ class Book {
   }
 }
 
-// UI Class: Handle UI Tasks(book display, removed, alerts)
+/*-----UI Class: Handle UI Tasks(book display, removed, alerts)------*/
 class UI {
   /*use static keyword so there wont be a need to instantiate a class*/
   static displayBooks() {
@@ -75,12 +75,12 @@ class UI {
   }
 }
 
-// Store Class: Handle Storage(Local Storage)
+/*-----Store Class: Handle Storage(Local Storage)-----*/
 
-// Event: Display Books
+/*------------Event: Display Books--------------*/
 document.addEventListener("DOMContentLoaded", UI.displayBooks);
 
-// Event: Add Books(receive data from form and add it)
+/*---Event: Add Books(receive data from form and add it)---*/
 //add eventlistener on form
 document.querySelector("#book-form").addEventListener("submit", (e) => {
   // Prevent atual submit
@@ -108,7 +108,7 @@ document.querySelector("#book-form").addEventListener("submit", (e) => {
   }
 });
 
-// Event: Remove Books
+/*------------Event: Remove Books-----------*/
 // event propagation: target the actual list and then check if an item in the list contains delete in its class then delete its parent parent of what was clicked. targetig the delete class itself would have deleted just the first item with a delete class
 document.querySelector("#book-list").addEventListener("click", (e) => {
   UI.deleteBook(e.target);
