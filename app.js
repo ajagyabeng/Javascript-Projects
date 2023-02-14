@@ -11,20 +11,7 @@ class Book {
 class UI {
   /*use static keyword so there wont be a need to instantiate a class*/
   static displayBooks() {
-    const StoredBooks = [
-      {
-        title: "Book One",
-        author: "James Doe",
-        isbn: "343424",
-      },
-      {
-        title: "Book Two",
-        author: "Janet Bird",
-        isbn: "485328",
-      },
-    ];
-
-    const books = StoredBooks;
+    const books = Store.getBooks();
 
     books.forEach((book) => UI.addBookToList(book)); //loop through books to add to the list of books to be displayed.
   }
@@ -133,6 +120,9 @@ document.querySelector("#book-form").addEventListener("submit", (e) => {
     // Add book to UI
     UI.addBookToList(book);
 
+    // Add book to locale storage
+    Store.addBook(book);
+
     // Show success message
     UI.showAlert("Book Added", "success");
 
@@ -144,6 +134,7 @@ document.querySelector("#book-form").addEventListener("submit", (e) => {
 /*------------Event: Remove Books-----------*/
 // event propagation: target the actual list and then check if an item in the list contains delete in its class then delete its parent parent of what was clicked. targetig the delete class itself would have deleted just the first item with a delete class
 document.querySelector("#book-list").addEventListener("click", (e) => {
+  // remove from UI
   UI.deleteBook(e.target);
 
   // Show delete success message
