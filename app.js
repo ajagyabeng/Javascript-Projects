@@ -9,14 +9,17 @@ class Book {
 
 /*-----UI Class: Handle UI Tasks(book display, removed, alerts)------*/
 class UI {
-  /*use static keyword so there wont be a need to instantiate a class*/
+  /*use static keyword so there wont be a need to instantiate a class before using them*/
   static displayBooks() {
+    // gets the books from local storage
     const books = Store.getBooks();
 
-    books.forEach((book) => UI.addBookToList(book)); //loop through books to add to the list of books to be displayed.
+    //loop through books to add to the list of books to be displayed.
+    books.forEach((book) => UI.addBookToList(book));
   }
 
   static addBookToList(book) {
+    // select table body element to add books to.
     const list = document.querySelector("#book-list");
 
     // create a table row element to add to table body in html
@@ -30,6 +33,7 @@ class UI {
     <td><a href="#" class="btn btn-danger btn-sm delete">X</a></td>
     `;
 
+    // add row to table body
     list.appendChild(row);
   }
 
@@ -46,10 +50,16 @@ class UI {
     const div = document.createElement("div");
     div.className = `alert alert-${className}`;
     div.appendChild(document.createTextNode(message));
+
     // Grab parent element of where alert should be displayed
     const container = document.querySelector(".container");
+
+    // Grab element that created element(div) is to be inserted before
     const form = document.querySelector("#book-form");
+
+    // insert created element(div)
     container.insertBefore(div, form);
+
     // Disappear alert after 3 secs
     setTimeout(() => document.querySelector(".alert").remove(), 3000);
   }
@@ -71,17 +81,23 @@ class Store {
     if (localStorage.getItem("books") === null) {
       books = [];
     } else {
-      books = JSON.parse(localStorage.getItem("books")); // stored as a string so run it through JSON.parse method to use it as a JS array of objects.
+      books = JSON.parse(localStorage.getItem("books"));
+      // Locale Storage data are strings. Run through JSON.parse method to use it as a regular JS array of objects.
     }
     return books;
   }
 
   static addBook(book) {
     const books = Store.getBooks();
-    books.push(book); // add the book passed in to the books in localStorage
+
+    // add the book passed in to the books in localStorage
+    books.push(book);
+
     // reset it to local storage
-    localStorage.setItem("books", JSON.stringify(books)); // wrap books in JSON.stringify to convert it from an array of objects to a string
+    localStorage.setItem("books", JSON.stringify(books));
+    // Wrap books in JSON.stringify to convert it from an array of objects to a string before storing in local storage
   }
+
   static removeBook(isbn) {
     const books = Store.getBooks();
 
@@ -94,13 +110,17 @@ class Store {
 
     // reset localStorage
     localStorage.setItem("books", JSON.stringify(books));
+    // Wrap books in JSON.stringify to convert it from an array of objects to a string before storing in local storage
   }
 }
 
 /*------------Event: Display Books--------------*/
+
+// Once DOM loads, books available in storage will display
 document.addEventListener("DOMContentLoaded", UI.displayBooks);
 
 /*---Event: Add Books(receive data from form and add it)---*/
+
 //add eventlistener on form
 document.querySelector("#book-form").addEventListener("submit", (e) => {
   // Prevent atual submit
