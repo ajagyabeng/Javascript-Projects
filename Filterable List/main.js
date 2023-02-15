@@ -87,7 +87,7 @@ class Store {
 }
 
 class UI {
-  static displayContactHeaders() {
+  static displayContacts() {
     const ul = document.querySelector("#names");
     contactHeaders.forEach((header) => {
       const li = document.createElement("li");
@@ -96,12 +96,29 @@ class UI {
       ul.appendChild(li);
     });
 
-    // const contacts = Store.getContacts();
+    const contacts = Store.getContacts();
 
-    // contacts.forEach((contact) => UI.addContactToList(contact));
+    contacts.forEach((contact) => UI.addContactToList(contact));
   }
 
-  static addContactToList(contact) {}
+  static addContactToList(contact) {
+    // Get all the contact headers in a list
+    const headers = document.querySelectorAll(".collection-header");
+
+    //Loop through headers to compare to first letter of contact names
+    headers.forEach((header) => {
+      console.log(contact.name);
+      if (
+        contact.name[0].toUpperCase() === header.firstElementChild.textContent
+      ) {
+        const li = document.createElement("li");
+        li.classList.add("collection-item");
+        li.innerHTML = `<a href='#'>${contact.name}</a>`;
+        const ul = document.querySelector("#names");
+        header.after(li);
+      }
+    });
+  }
 
   static clearContactField() {
     document.querySelector("#name").value = "";
@@ -110,7 +127,7 @@ class UI {
 
 /*--------------------EVENT LISTENERS---------------------*/
 //WHEN DOM LOADS
-document.addEventListener("DOMContentLoaded", UI.displayContactHeaders);
+document.addEventListener("DOMContentLoaded", UI.displayContacts);
 
 // add eventListener of form
 document.querySelector("#contact-form").addEventListener("submit", (e) => {
