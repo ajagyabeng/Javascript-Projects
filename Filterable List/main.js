@@ -88,6 +88,7 @@ class Store {
 
 class UI {
   static displayContacts() {
+    // Add alphabets in contact headers Array as Header to DOM list
     const ul = document.querySelector("#names");
     contactHeaders.forEach((header) => {
       const li = document.createElement("li");
@@ -98,6 +99,7 @@ class UI {
 
     const contacts = Store.getContacts();
 
+    // Pass in stored contacts to be displayed under each header
     contacts.forEach((contact) => UI.addContactToList(contact));
   }
 
@@ -105,22 +107,23 @@ class UI {
     // Get all the contact headers in a list
     const headers = document.querySelectorAll(".collection-header");
 
+    const li = document.createElement("li");
+    li.classList.add("collection-item");
+    li.innerHTML = `<a href='#'>${contact.name}</a>`;
+
     //Loop through headers to compare to first letter of contact names
     headers.forEach((header) => {
       console.log(contact.name);
       if (
         contact.name[0].toUpperCase() === header.firstElementChild.textContent
       ) {
-        const li = document.createElement("li");
-        li.classList.add("collection-item");
-        li.innerHTML = `<a href='#'>${contact.name}</a>`;
-        const ul = document.querySelector("#names");
         header.after(li);
       }
     });
   }
 
   static clearContactField() {
+    // Clear input field after adding a contact
     document.querySelector("#name").value = "";
   }
 }
