@@ -29,6 +29,35 @@ function filterNames() {
 }
 
 /*--------------------CLASSES-----------------------------*/
+// ARRAY TO BE USED TO CREATE CONTACT HEADERS
+const contactHeaders = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+];
 
 class Contact {
   constructor(name) {
@@ -58,12 +87,31 @@ class Store {
 }
 
 class UI {
+  static displayContactHeaders() {
+    const ul = document.querySelector("#names");
+    contactHeaders.forEach((header) => {
+      const li = document.createElement("li");
+      li.classList.add("collection-header");
+      li.innerHTML = `<h5>${header}</h5>`;
+      ul.appendChild(li);
+    });
+
+    // const contacts = Store.getContacts();
+
+    // contacts.forEach((contact) => UI.addContactToList(contact));
+  }
+
+  static addContactToList(contact) {}
+
   static clearContactField() {
     document.querySelector("#name").value = "";
   }
 }
 
 /*--------------------EVENT LISTENERS---------------------*/
+//WHEN DOM LOADS
+document.addEventListener("DOMContentLoaded", UI.displayContactHeaders);
+
 // add eventListener of form
 document.querySelector("#contact-form").addEventListener("submit", (e) => {
   e.preventDefault();
