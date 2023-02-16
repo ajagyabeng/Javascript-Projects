@@ -152,11 +152,11 @@ class UI {
   }
 }
 
-/*--------------------EVENT LISTENERS---------------------*/
-//WHEN DOM LOADS
+/*--------------------EVENTS---------------------*/
+// Event Litener: Display Contacts
 document.addEventListener("DOMContentLoaded", UI.displayContacts);
 
-// add eventListener to form
+// Event Listener: Add Contact to Local Storage and UI
 document.querySelector("#contact-form").addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -174,5 +174,5 @@ document.querySelector("#contact-form").addEventListener("submit", (e) => {
   }
 });
 
-// Add eventlistener
+// Eventlistener: Filter Names
 filterInput.addEventListener("keyup", filterNames);
