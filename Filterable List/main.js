@@ -71,11 +71,12 @@ class Store {
     } else {
       contacts = JSON.parse(localStorage.getItem("contacts"));
 
-      /*sort array of objects based on names*/
+      /*SORT CONTACTS BASED ON NAMES*/
       contacts.sort((a, b) => {
         const nameA = a.name.toUpperCase();
         const nameB = b.name.toUpperCase();
-        //  in ascending order
+
+        /*In ASCENDING order: change the operators to SORT in DESCENDING order*/
         if (nameA < nameB) {
           return 1;
         }
