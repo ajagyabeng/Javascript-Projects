@@ -140,6 +140,7 @@ class UI {
       console.log(contact.name);
       if (
         contact.name[0].toUpperCase() === header.firstElementChild.textContent
+        // Locate which header to place contact under
       ) {
         header.after(li);
       }
