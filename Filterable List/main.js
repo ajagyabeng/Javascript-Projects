@@ -1,9 +1,6 @@
 // Get input element
 const filterInput = document.querySelector("#filter-input");
 
-// Add eventlistener
-filterInput.addEventListener("keyup", filterNames);
-
 function filterNames() {
   // Get value of input
   const filterValue = filterInput.value.toUpperCase();
@@ -20,7 +17,6 @@ function filterNames() {
 
     // Check if it matches
     if (a.innerHTML.toUpperCase().indexOf(filterValue) > -1) {
-      // checks if filterValue is in list of names
       li.style.display = "";
     } else {
       li.style.display = "none";
@@ -30,34 +26,34 @@ function filterNames() {
 
 /*--------------------CLASSES-----------------------------*/
 // ARRAY TO BE USED TO CREATE CONTACT HEADERS
-const contactHeaders = [
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "G",
-  "H",
-  "I",
-  "J",
-  "K",
-  "L",
-  "M",
-  "N",
-  "O",
-  "P",
-  "Q",
-  "R",
-  "S",
-  "T",
-  "U",
-  "V",
-  "W",
-  "X",
-  "Y",
-  "Z",
-];
+// const contactHeaders = [
+//   "A",
+//   "B",
+//   "C",
+//   "D",
+//   "E",
+//   "F",
+//   "G",
+//   "H",
+//   "I",
+//   "J",
+//   "K",
+//   "L",
+//   "M",
+//   "N",
+//   "O",
+//   "P",
+//   "Q",
+//   "R",
+//   "S",
+//   "T",
+//   "U",
+//   "V",
+//   "W",
+//   "X",
+//   "Y",
+//   "Z",
+// ];
 
 class Contact {
   constructor(name) {
@@ -67,12 +63,33 @@ class Contact {
 
 class Store {
   static getContacts() {
+    // Retrieves contact from localStorage.
     let contacts;
 
     if (localStorage.getItem("contacts") === null) {
       contacts = [];
     } else {
       contacts = JSON.parse(localStorage.getItem("contacts"));
+
+      /*sort array of objects based on names*/
+      contacts.sort((a, b) => {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+        //  in ascending order
+        if (nameA < nameB) {
+          return 1;
+        }
+        if (nameA > nameB) {
+          return -1;
+        }
+        return 0;
+      });
+
+      // /*-------------Using Ternary operator-------------*/
+      // let sortedContacts = contacts.sort((a, b) =>
+      //   a.name < b.name ? 1 : a.name > b.name ? -1 : 0
+      // );
+      // return sortedContacts;
     }
     return contacts;
   }
@@ -89,15 +106,21 @@ class Store {
 class UI {
   static displayContacts() {
     // Add alphabets in contact headers Array as Header to DOM list
+    const contacts = Store.getContacts();
+    let contactHeaders = [];
+    contacts.forEach((contact) => {
+      if (!contactHeaders.includes(contact.name[0].toUpperCase())) {
+        contactHeaders.push(contact.name[0].toUpperCase());
+      }
+    });
+
     const ul = document.querySelector("#names");
-    contactHeaders.forEach((header) => {
+    contactHeaders.sort().forEach((header) => {
       const li = document.createElement("li");
       li.classList.add("collection-header");
       li.innerHTML = `<h5>${header}</h5>`;
       ul.appendChild(li);
     });
-
-    const contacts = Store.getContacts();
 
     // Pass in stored contacts to be displayed under each header
     contacts.forEach((contact) => UI.addContactToList(contact));
@@ -132,7 +155,7 @@ class UI {
 //WHEN DOM LOADS
 document.addEventListener("DOMContentLoaded", UI.displayContacts);
 
-// add eventListener of form
+// add eventListener to form
 document.querySelector("#contact-form").addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -143,8 +166,12 @@ document.querySelector("#contact-form").addEventListener("submit", (e) => {
   if (name === "") {
     alert("Please fill all fields"); // change this later
   } else {
-    const contact = new Contact(name);
-    Store.addContact(contact);
+    const contact = new Contact(`${name[0].toUpperCase()}${name.substring(1)}`); // Capitalize the input
+    UI.addContactToList(contact); // add contact to UI
+    Store.addContact(contact); //Store contact to localStorage
     UI.clearContactField();
   }
 });
+
+// Add eventlistener
+filterInput.addEventListener("keyup", filterNames);
