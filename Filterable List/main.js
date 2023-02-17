@@ -96,6 +96,18 @@ class UI {
     });
   }
 
+  static newContact() {
+    // Hides New Contact button and displays Add contact form
+    document.querySelector("#new-contact").style.display = "none";
+    document.querySelector("#contact-form").style.display = "block";
+  }
+
+  static hideContactForm() {
+    // Displays New Contact button and hides Add contact form
+    document.querySelector("#contact-form").style.display = "none";
+    document.querySelector("#new-contact").style.display = "block";
+  }
+
   static addContactToList() {
     const contacts = Store.getContacts();
     // Get all the contact headers in a list
@@ -152,6 +164,12 @@ document.addEventListener("DOMContentLoaded", UI.displayHeaders());
 // Event Listener: Display Contacts
 document.addEventListener("DOMContentLoaded", UI.addContactToList());
 
+// Event Listener: Hide Contact form
+document.addEventListener("DOMContentLoaded", UI.hideContactForm());
+
+// Event Listener: Show Contact form
+document.querySelector("#new-contact").addEventListener("click", UI.newContact);
+
 // Event Listener: Filter Names
 filterInput.addEventListener("keyup", filterNames);
 
@@ -164,6 +182,9 @@ document.querySelector("#contact-form").addEventListener("submit", (e) => {
 
   // Reset Headers
   UI.resetHeaders();
+
+  //Hide Contact form
+  UI.hideContactForm();
 
   // Get hold of input value
   const name = document.querySelector("#name").value;
@@ -188,7 +209,6 @@ document.querySelector("#contact-form").addEventListener("submit", (e) => {
 
 /*
 TODOS
-2. Add phone numbers
 3. Create an add contact page (inputs for first & last name, work no., mobile no., email.)
 4. Connect to server
 */
