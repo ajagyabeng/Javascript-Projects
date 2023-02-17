@@ -93,8 +93,7 @@ class UI {
       ul.appendChild(li);
     });
 
-    // Pass in stored contacts to be displayed under each header
-    // contacts.forEach((contact) => UI.addContactToList(contact));
+    // Call to add contact to UI.
     UI.addContactToList();
   }
 
@@ -111,7 +110,6 @@ class UI {
 
       //Loop through headers to compare to first letter of contact names
       headers.forEach((header) => {
-        console.log(contact.name);
         if (
           contact.name[0].toUpperCase() === header.firstElementChild.textContent
           // Locate which header to place contact under
@@ -137,6 +135,12 @@ document.addEventListener("DOMContentLoaded", UI.displayContacts);
 document.querySelector("#contact-form").addEventListener("submit", (e) => {
   e.preventDefault();
 
+  // Remove already displayed contacts.
+  const displayedContacts = document.querySelectorAll(".collection-item");
+  displayedContacts.forEach((contact) => {
+    contact.remove();
+  });
+
   // Get hold of input value
   const name = document.querySelector("#name").value;
 
@@ -146,7 +150,7 @@ document.querySelector("#contact-form").addEventListener("submit", (e) => {
   } else {
     const contact = new Contact(`${name[0].toUpperCase()}${name.substring(1)}`); // Capitalize the input
     Store.addContact(contact); //Store contact to localStorage
-    UI.addContactToList(contact); // add contact to UI
+    UI.addContactToList(); // add contact to UI
     UI.clearContactField();
   }
 });
@@ -156,7 +160,7 @@ filterInput.addEventListener("keyup", filterNames);
 
 /*
 TODOS
-1. Add name to the approriate sorted position as soon as it is added
+1. Load up header immediately a contact is added to it at first
 2. Add phone numbers
 3. Create add contact page (inputs for first & last name, work no., mobile no., email.)
 4. 
