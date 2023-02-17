@@ -94,26 +94,32 @@ class UI {
     });
 
     // Pass in stored contacts to be displayed under each header
-    contacts.forEach((contact) => UI.addContactToList(contact));
+    // contacts.forEach((contact) => UI.addContactToList(contact));
+    UI.addContactToList();
   }
 
-  static addContactToList(contact) {
+  static addContactToList() {
+    const contacts = Store.getContacts();
     // Get all the contact headers in a list
     const headers = document.querySelectorAll(".collection-header");
 
-    const li = document.createElement("li");
-    li.classList.add("collection-item");
-    li.innerHTML = `<a href='#'>${contact.name}</a>`;
+    contacts.forEach((contact) => {
+      // create li element for each contact
+      const li = document.createElement("li");
+      li.classList.add("collection-item");
+      li.innerHTML = `<a href='#'>${contact.name}</a>`;
 
-    //Loop through headers to compare to first letter of contact names
-    headers.forEach((header) => {
-      console.log(contact.name);
-      if (
-        contact.name[0].toUpperCase() === header.firstElementChild.textContent
-        // Locate which header to place contact under
-      ) {
-        header.after(li);
-      }
+      //Loop through headers to compare to first letter of contact names
+      headers.forEach((header) => {
+        console.log(contact.name);
+        if (
+          contact.name[0].toUpperCase() === header.firstElementChild.textContent
+          // Locate which header to place contact under
+        ) {
+          li.classList.add(`${header.firstElementChild.textContent}-contacts`);
+          header.after(li);
+        }
+      });
     });
   }
 
@@ -139,8 +145,8 @@ document.querySelector("#contact-form").addEventListener("submit", (e) => {
     alert("Please fill all fields"); // change this later
   } else {
     const contact = new Contact(`${name[0].toUpperCase()}${name.substring(1)}`); // Capitalize the input
-    UI.addContactToList(contact); // add contact to UI
     Store.addContact(contact); //Store contact to localStorage
+    UI.addContactToList(contact); // add contact to UI
     UI.clearContactField();
   }
 });
@@ -149,6 +155,7 @@ document.querySelector("#contact-form").addEventListener("submit", (e) => {
 filterInput.addEventListener("keyup", filterNames);
 
 /*
+TODOS
 1. Add name to the approriate sorted position as soon as it is added
 2. Add phone numbers
 3. Create add contact page (inputs for first & last name, work no., mobile no., email.)
