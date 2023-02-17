@@ -25,36 +25,6 @@ function filterNames() {
 }
 
 /*--------------------CLASSES-----------------------------*/
-// ARRAY TO BE USED TO CREATE CONTACT HEADERS
-// const contactHeaders = [
-//   "A",
-//   "B",
-//   "C",
-//   "D",
-//   "E",
-//   "F",
-//   "G",
-//   "H",
-//   "I",
-//   "J",
-//   "K",
-//   "L",
-//   "M",
-//   "N",
-//   "O",
-//   "P",
-//   "Q",
-//   "R",
-//   "S",
-//   "T",
-//   "U",
-//   "V",
-//   "W",
-//   "X",
-//   "Y",
-//   "Z",
-// ];
-
 class Contact {
   constructor(name) {
     this.name = name;
@@ -177,3 +147,10 @@ document.querySelector("#contact-form").addEventListener("submit", (e) => {
 
 // Eventlistener: Filter Names
 filterInput.addEventListener("keyup", filterNames);
+
+/*
+1. Add name to the approriate sorted position as soon as it is added
+2. Add phone numbers
+3. Create add contact page (inputs for first & last name, work no., mobile no., email.)
+4. 
+*/
