@@ -75,8 +75,8 @@ class Store {
 }
 
 class UI {
-  static displayContacts() {
-    // Add alphabets in contact headers Array as Header to DOM list
+  static displayHeaders() {
+    // Adds header Alphabet (A, B, C, etc.)
     const contacts = Store.getContacts();
     let contactHeaders = [];
     contacts.forEach((contact) => {
@@ -92,9 +92,6 @@ class UI {
       li.innerHTML = `<h5>${header}</h5>`;
       ul.appendChild(li);
     });
-
-    // Call to add contact to UI.
-    UI.addContactToList();
   }
 
   static addContactToList() {
@@ -121,6 +118,23 @@ class UI {
     });
   }
 
+  static resetHeaders() {
+    // Allows new header to be added if new contact name added starts with a new alphabet.
+    const displayedHeaders = document.querySelectorAll(".collection-header");
+    displayedHeaders.forEach((header) => {
+      header.remove();
+    });
+  }
+
+  static resetContacts() {
+    // Allows new contact name to be added alphabetically
+    const displayedContacts = document.querySelectorAll(".collection-item");
+
+    displayedContacts.forEach((contact) => {
+      contact.remove();
+    });
+  }
+
   static clearContactField() {
     // Clear input field after adding a contact
     document.querySelector("#name").value = "";
@@ -129,17 +143,18 @@ class UI {
 
 /*--------------------EVENTS---------------------*/
 // Event Litener: Display Contacts
-document.addEventListener("DOMContentLoaded", UI.displayContacts);
+document.addEventListener("DOMContentLoaded", UI.displayHeaders());
+document.addEventListener("DOMContentLoaded", UI.addContactToList());
 
 // Event Listener: Add Contact to Local Storage and UI
 document.querySelector("#contact-form").addEventListener("submit", (e) => {
   e.preventDefault();
 
   // Remove already displayed contacts.
-  const displayedContacts = document.querySelectorAll(".collection-item");
-  displayedContacts.forEach((contact) => {
-    contact.remove();
-  });
+  UI.resetContacts();
+
+  // Reset Headers
+  UI.resetHeaders();
 
   // Get hold of input value
   const name = document.querySelector("#name").value;
@@ -150,6 +165,7 @@ document.querySelector("#contact-form").addEventListener("submit", (e) => {
   } else {
     const contact = new Contact(`${name[0].toUpperCase()}${name.substring(1)}`); // Capitalize the input
     Store.addContact(contact); //Store contact to localStorage
+    UI.displayHeaders(); // add contact to UI
     UI.addContactToList(); // add contact to UI
     UI.clearContactField();
   }
