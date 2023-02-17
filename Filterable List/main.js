@@ -26,8 +26,10 @@ function filterNames() {
 
 /*--------------------CLASSES-----------------------------*/
 class Contact {
-  constructor(name) {
+  constructor(name, phone, email) {
     this.name = name;
+    this.phone = phone;
+    this.email = email;
   }
 }
 
@@ -138,6 +140,8 @@ class UI {
   static clearContactField() {
     // Clear input field after adding a contact
     document.querySelector("#name").value = "";
+    document.querySelector("#phone").value = "";
+    document.querySelector("#email").value = "";
   }
 }
 
@@ -158,12 +162,18 @@ document.querySelector("#contact-form").addEventListener("submit", (e) => {
 
   // Get hold of input value
   const name = document.querySelector("#name").value;
+  const phone = document.querySelector("#phone").value;
+  const email = document.querySelector("#email").value;
 
   // validate input
-  if (name === "") {
+  if (name === "" || phone === "") {
     alert("Please fill all fields"); // change this later
   } else {
-    const contact = new Contact(`${name[0].toUpperCase()}${name.substring(1)}`); // Capitalize the input
+    const contact = new Contact(
+      `${name[0].toUpperCase()}${name.substring(1)}`,
+      phone,
+      email
+    ); // Capitalize the input
     Store.addContact(contact); //Store contact to localStorage
     UI.displayHeaders(); // add contact to UI
     UI.addContactToList(); // add contact to UI
@@ -176,8 +186,7 @@ filterInput.addEventListener("keyup", filterNames);
 
 /*
 TODOS
-1. Load up header immediately a contact is added to it at first
 2. Add phone numbers
-3. Create add contact page (inputs for first & last name, work no., mobile no., email.)
-4. 
+3. Create an add contact page (inputs for first & last name, work no., mobile no., email.)
+4. Connect to server
 */
