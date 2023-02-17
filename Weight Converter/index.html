@@ -16,17 +16,35 @@
     <div class="row">
       <div class="col-md-6 offset-md-3">
         <h1 class="display-4 text-center mb-3">Weight Converter</h1>
+
+        <!-- Select unit to convert from -->
+        <select id="unit-from" class="form-select form-select-sm mb-3" aria-label=".form-select-sm">
+          <option value="lbs" selected>Pounds(lbs)</option>
+          <option value="g">Grams(g)</option>
+          <option value="kg">Kilograms(kg)</option>
+          <option value="oz">Ounces(oz)</option>
+        </select>
+
         <form class="mb-3">
-          <div class="form-group">
+          <div id="input-form" class="form-group">
             <input type="number" name="" id="lbsInput" class="form-control form-control-lg"
-              placeholder="Enter Pounds...">
+              placeholder="Enter Weight...">
           </div>
         </form>
+
+        <!-- Select unit to convert from -->
+        <select id="unit-to" class="form-select form-select-sm mb-3" aria-label=".form-select-sm">
+          <!-- <option value="all">All</option> -->
+          <option value="lbs">Pounds(lbs)</option>
+          <option value="g" selected>Grams(g)</option>
+          <option value="kg">Kilograms(kg)</option>
+          <option value="oz">Ounces(oz)</option>
+        </select>
 
         <!-- Outputs -->
         <div id="output">
           <!-- Grams -->
-          <div class="card text-bg-primary mb-2">
+          <div id="g-block" class="card text-bg-primary mb-2">
             <div class="card-block p-2">
               <h4>Grams:</h4>
               <div id="grams-output"></div>
@@ -34,7 +52,7 @@
           </div>
 
           <!-- Kilogram -->
-          <div class="card text-bg-success mb-2">
+          <div id="kg-block" class="card text-bg-success mb-2">
             <div class="card-block p-2">
               <h4>Kilograms:</h4>
               <div id="kg-output"></div>
@@ -42,9 +60,17 @@
           </div>
 
           <!-- Ounce -->
-          <div class="card text-bg-danger mb-2">
+          <div id="oz-block" class="card text-bg-danger mb-2">
             <div class="card-block p-2">
               <h4>Ounces:</h4>
+              <div id="oz-output"></div>
+            </div>
+          </div>
+
+          <!-- Pounds -->
+          <div id="lbs-block" class="card text-success-emphasis mb-2">
+            <div class="card-block p-2">
+              <h4>Pounds:</h4>
               <div id="oz-output"></div>
             </div>
           </div>
