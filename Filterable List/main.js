@@ -146,9 +146,14 @@ class UI {
 }
 
 /*--------------------EVENTS---------------------*/
-// Event Litener: Display Contacts
+// Event Listener: Display Headers
 document.addEventListener("DOMContentLoaded", UI.displayHeaders());
+
+// Event Listener: Display Contacts
 document.addEventListener("DOMContentLoaded", UI.addContactToList());
+
+// Event Listener: Filter Names
+filterInput.addEventListener("keyup", filterNames);
 
 // Event Listener: Add Contact to Local Storage and UI
 document.querySelector("#contact-form").addEventListener("submit", (e) => {
@@ -180,9 +185,6 @@ document.querySelector("#contact-form").addEventListener("submit", (e) => {
     UI.clearContactField();
   }
 });
-
-// Eventlistener: Filter Names
-filterInput.addEventListener("keyup", filterNames);
 
 /*
 TODOS
