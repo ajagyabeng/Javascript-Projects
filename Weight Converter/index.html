@@ -19,10 +19,11 @@
 
         <!-- Select unit to convert from -->
         <select id="unit-from" class="form-select form-select-sm mb-3" aria-label=".form-select-sm">
-          <option value="lbs" selected>Pounds(lbs)</option>
-          <option value="g">Grams(g)</option>
-          <option value="kg">Kilograms(kg)</option>
-          <option value="oz">Ounces(oz)</option>
+          <option class="from-option" value="neutral" selected>Select Unit to convert from.</option>
+          <option class="from-option" value="lbs">Pounds(lbs)</option>
+          <option class="from-option" value="g">Grams(g)</option>
+          <option class="from-option" value="kg">Kilograms(kg)</option>
+          <option class="from-option" value="oz">Ounces(oz)</option>
         </select>
 
         <form class="mb-3">
@@ -32,14 +33,16 @@
           </div>
         </form>
 
-        <!-- Select unit to convert from -->
-        <select id="unit-to" class="form-select form-select-sm mb-3" aria-label=".form-select-sm">
-          <!-- <option value="all">All</option> -->
-          <option value="lbs">Pounds(lbs)</option>
-          <option value="g" selected>Grams(g)</option>
-          <option value="kg">Kilograms(kg)</option>
-          <option value="oz">Ounces(oz)</option>
-        </select>
+        <!-- Select unit to convert to -->
+        <div id="select-unit">
+          <select id="unit-to" class="form-select form-select-sm mb-3" aria-label=".form-select-sm">
+            <!-- <option value="all">All</option> -->
+            <option class="to-option" value="lbs">Pounds(lbs)</option>
+            <option class="to-option" value="g" selected>Grams(g)</option>
+            <option class="to-option" value="kg">Kilograms(kg)</option>
+            <option class="to-option" value="oz">Ounces(oz)</option>
+          </select>
+        </div>
 
         <!-- Outputs -->
         <div id="output">
