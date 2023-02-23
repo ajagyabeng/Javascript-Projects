@@ -201,7 +201,7 @@ document.querySelector("#contact-form").addEventListener("submit", (e) => {
       email
     ); // Capitalize the input
     Store.addContact(contact); //Store contact to localStorage
-    UI.displayHeaders(); // add contact to UI
+    UI.displayHeaders(); // add Headers to UI
     UI.addContactToList(); // add contact to UI
     UI.clearContactField();
   }

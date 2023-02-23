@@ -33,3 +33,9 @@ document.querySelector("#lbsInput").addEventListener("input", (e) => {
   // display ounze value in output
   document.querySelector("#oz-output").innerHTML = lbs * 16;
 });
+
+/*
+1. Remove previsouly selected output when new output is selected.
+2. Write code to convert weight to each other
+3. Block selected unit to convert from appearing in unit to convert to.
+*/
