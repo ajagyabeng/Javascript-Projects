@@ -10,6 +10,14 @@ document.querySelector("#lbs-block").style.display = "none";
 /*------------EVENT LISTENERS-----------------*/
 // Event Listener: Select unit to convert from
 document.querySelector("#unit-from").addEventListener("change", (e) => {
+  /*check if an option in unit to convert to is disabled and enable it.*/
+  const toOptions = document.querySelectorAll(".to-option");
+  toOptions.forEach((option) => {
+    if (option.hasAttribute("disabled")) {
+      option.disabled = false;
+    }
+  });
+
   /*checks if a unit has been selected before displaying input field*/
   const selectedOptionIndex = e.target.options.selectedIndex;
   // add a class to selected element
