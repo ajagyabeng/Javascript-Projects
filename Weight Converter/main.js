@@ -10,6 +10,20 @@ document.querySelector("#lbs-block").style.display = "none";
 /*------------EVENT LISTENERS-----------------*/
 // Event Listener: Select unit to convert from
 document.querySelector("#unit-from").addEventListener("change", (e) => {
+  /*checks if a unit has been selected before displaying input field*/
+  const selectedOptionIndex = e.target.options.selectedIndex;
+  // add a class to selected element
+  const options = document.querySelectorAll(".from-option");
+  options.forEach((option) => {
+    if (option.classList.contains("current")) {
+      // check if an option already has the 'current' class then remove it before adding it to the newly selected option
+      option.classList.remove("current");
+      options[selectedOptionIndex].classList.add("current");
+    } else {
+      options[selectedOptionIndex].classList.add("current");
+    }
+  });
+
   if (e.target.value === "neutral") {
     document.querySelector("#input-form").remove();
   } else {
