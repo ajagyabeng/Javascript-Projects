@@ -1,2 +1,2 @@
 # Javascript-Projects
-This is collection of projects I built while learning Javascript
+This repository contains a collection of projects I built while learning Javascript
