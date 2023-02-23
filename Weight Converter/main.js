@@ -10,7 +10,11 @@ document.querySelector("#lbs-block").style.display = "none";
 /*------------EVENT LISTENERS-----------------*/
 // Event Listener: Select unit to convert from
 document.querySelector("#unit-from").addEventListener("change", (e) => {
-  document.querySelector("#input-form").style.display = "block";
+  if (e.target.value === "neutral") {
+    document.querySelector("#input-form").remove();
+  } else {
+    document.querySelector("#input-form").style.display = "block";
+  }
 });
 
 // Event Listener: Select unit to convert to
