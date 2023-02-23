@@ -11,7 +11,7 @@ document.querySelector("#lbs-block").style.display = "none";
 // Event Listener: Select unit to convert from
 document.querySelector("#unit-from").addEventListener("change", (e) => {
   UI.enableOutputUnit();
-  UI.checkCurrentInput();
+  UI.checkCurrentInput(e);
 });
 
 // Event Listener: Select unit to convert to
@@ -26,22 +26,47 @@ document.querySelector("#select-unit").addEventListener("click", (e) => {
 
 // Event Listener: Input
 document.querySelector("#Input").addEventListener("input", (e) => {
-  // Get hold of value
-  const lbs = e.target.value;
+  // Get hold of value for calculation
+  const weight = e.target.value;
 
-  // display gram value in output
-  document.querySelector("#grams-output").innerHTML = lbs / 0.0022046;
-
-  // display kilogram value in output
-  document.querySelector("#kg-output").innerHTML = lbs / 2.2046;
-
-  // display ounze value in output
-  document.querySelector("#oz-output").innerHTML = lbs * 16;
+  const options = document.querySelectorAll(".from-option");
+  options.forEach((option) => {
+    if (
+      option.classList.contains("current") &&
+      option.innerHTML === "Pounds(lbs)"
+    ) {
+      // lbs
+      document.querySelector("#grams-output").innerHTML = weight / 0.0022046;
+      document.querySelector("#kg-output").innerHTML = weight / 2.20462;
+      document.querySelector("#oz-output").innerHTML = weight * 16;
+    } else if (
+      option.classList.contains("current") &&
+      option.innerHTML === "Grams(g)"
+    ) {
+      // g
+      document.querySelector("#kg-output").innerHTML = weight / 1000;
+      document.querySelector("#lbs-output").innerHTML = weight / 453.6;
+      document.querySelector("#oz-output").innerHTML = weight / 28.35;
+    } else if (
+      option.classList.contains("current") &&
+      option.innerHTML === "Kilograms(kg)"
+    ) {
+      // kg
+      document.querySelector("#grams-output").innerHTML = weight * 1000;
+      document.querySelector("#lbs-output").innerHTML = weight * 2.20462;
+      document.querySelector("#oz-output").innerHTML = weight * 35.274;
+    } else {
+      // oz
+      document.querySelector("#kg-output").innerHTML = weight / 32.274;
+      document.querySelector("#lbs-output").innerHTML = weight / 16;
+      document.querySelector("#grams-output").innerHTML = weight * 28.35;
+    }
+  });
 });
 
 /*------------------------OOP: Classes-----------------------*/
 class UI {
-  static checkCurrentInput() {
+  static checkCurrentInput(e) {
     /*checks if a unit has been selected before displaying input field*/
 
     // get the index of the newly selected input
@@ -59,7 +84,7 @@ class UI {
     });
     // Display the input field in a unit was selected
     if (e.target.value === "neutral") {
-      document.querySelector("#input-form").remove();
+      document.querySelector("#input-form").style.display = "none";
     } else {
       document.querySelector("#input-form").style.display = "block";
     }
@@ -103,7 +128,3 @@ class UI {
     });
   }
 }
-
-/*
-2. Write code to convert weight to each other
-*/
