@@ -36,6 +36,23 @@ document.querySelector("#unit-to").addEventListener("change", (e) => {
   document.getElementById(`${e.target.value}-block`).style.display = "block";
 });
 
+// Event Listener: Disables unit that is to be converted from
+document.querySelector("#select-unit").addEventListener("click", (e) => {
+  const fromOptions = document.querySelectorAll(".from-option");
+  fromOptions.forEach((option) => {
+    if (option.classList.contains("current")) {
+      const fromAttribute = option.getAttribute("value");
+      // Get hold of options to convert to and set attribute to disabled
+      const toOptions = document.querySelectorAll(".to-option");
+      toOptions.forEach((option) => {
+        if (option.getAttribute("value") === fromAttribute) {
+          option.disabled = true;
+        }
+      });
+    }
+  });
+});
+
 // Event Listener: Input
 document.querySelector("#lbsInput").addEventListener("input", (e) => {
   // Get hold of value
@@ -55,5 +72,4 @@ document.querySelector("#lbsInput").addEventListener("input", (e) => {
 /*
 1. Remove previsouly selected output when new output is selected.
 2. Write code to convert weight to each other
-3. Block selected unit to convert from appearing in unit to convert to.
 */
