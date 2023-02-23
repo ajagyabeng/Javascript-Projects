@@ -41,7 +41,14 @@ document.querySelector("#unit-from").addEventListener("change", (e) => {
 
 // Event Listener: Select unit to convert to
 document.querySelector("#unit-to").addEventListener("change", (e) => {
-  document.getElementById(`${e.target.value}-block`).style.display = "block";
+  /*Removes card when a different unit is selected*/
+  const outputCards = document.querySelectorAll(".output-card");
+  outputCards.forEach((card) => {
+    card.style.display = "none";
+  });
+  if (e.target.value != "all") {
+    document.getElementById(`${e.target.value}-block`).style.display = "block";
+  }
 });
 
 // Event Listener: Disables unit that is to be converted from
