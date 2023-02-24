@@ -13,13 +13,14 @@ itemsToHide.forEach((item) => {
 /*------------EVENT LISTENERS-----------------*/
 document.querySelector("#input-unit").addEventListener("change", (e) => {
   UI.enableOutputUnit();
-  UI.checkCurrentInput(e);
+  UI.checkSelectedUnit(e);
+  UI.showInputField(e);
   UI.reselectUnitValue();
 });
 
 document.querySelector("#output-unit").addEventListener("change", (e) => {
   UI.enableInputUnit();
-  UI.checkCurrentOutput(e);
+  UI.checkSelectedUnit(e);
   UI.selectOutput(e);
   UI.reselectUnitValue();
 });
@@ -40,20 +41,29 @@ document.querySelector("#Input").addEventListener("input", (e) => {
 /*------------------------OOP: Classes-----------------------*/
 class UI {
   /*---------------------- INPUT UNITS---------------------------*/
-  static checkCurrentInput(e) {
-    /*checks for currently selected input unit. Displays input window afterwards*/
-    const selectedOptionIndex = e.target.options.selectedIndex;
-
-    const options = document.querySelectorAll(".input-unit-option");
+  static checkSelectedUnit(e) {
+    /*Checks options to between the current selected option*/
+    const selectedOptionIndex = e.target.options.selectedIndex; // Gets the index of newly selected option
+    const convertDirection = e.target.id.split("-")[0]; // input or output
+    const options = document.querySelectorAll(
+      `.${convertDirection}-unit-option`
+    );
     options.forEach((option) => {
-      if (option.classList.contains("current-input")) {
-        option.classList.remove("current-input");
-        options[selectedOptionIndex].classList.add("current-input");
+      if (option.classList.contains(`current-${convertDirection}`)) {
+        option.classList.remove(`current-${convertDirection}`);
+        options[selectedOptionIndex].classList.add(
+          `current-${convertDirection}`
+        );
       } else {
-        options[selectedOptionIndex].classList.add("current-input");
+        options[selectedOptionIndex].classList.add(
+          `current-${convertDirection}`
+        );
       }
     });
+  }
 
+  static showInputField(e) {
+    /*Displays input field when an input unit is selected*/
     if (e.target.value === "input-neutral") {
       document.querySelector("#input-form").style.display = "none";
     } else {
@@ -79,7 +89,7 @@ class UI {
   }
 
   static enableInputUnit() {
-    /*Enables a previously disabled input unit*/
+    /*Enables a previously disabled input unit to make it available for selection when it is no longer the selected output unit*/
     const toOptions = document.querySelectorAll(".input-unit-option");
     toOptions.forEach((option) => {
       if (option.hasAttribute("disabled")) {
@@ -89,22 +99,8 @@ class UI {
   }
 
   /*----------------------OUTPUT UNITS---------------------------*/
-  static checkCurrentOutput(e) {
-    /*checks for currently selected output unit.*/
-    const selectedOptionIndex = e.target.options.selectedIndex;
-    const options = document.querySelectorAll(".output-unit-option");
-    options.forEach((option) => {
-      if (option.classList.contains("current-output")) {
-        option.classList.remove("current-output");
-        options[selectedOptionIndex].classList.add("current-output");
-      } else {
-        options[selectedOptionIndex].classList.add("current-output");
-      }
-    });
-  }
-
   static selectOutput(e) {
-    /*Displays the output card of selected output unit*/
+    /*Hides previously selected output card and displays output card for newly selected unit.*/
     const outputCards = document.querySelectorAll(".output-card");
     outputCards.forEach((card) => {
       card.style.display = "none";
@@ -116,7 +112,7 @@ class UI {
   }
 
   static reselectUnitValue() {
-    /*Checks value in input field and returns it convert to a new selected output unit*/
+    /*Checks value in input field and returns its' converted value to a new selected output unit card*/
     if (document.querySelector("#Input").value) {
       const weight = document.querySelector("#Input").value;
       Operation.convert(weight);
@@ -141,7 +137,7 @@ class UI {
   }
 
   static enableOutputUnit() {
-    /*Enables a previously disabled output unit*/
+    /*Enables a previously disabled output unit to make it available for selection when it is no longer the selected input unit*/
     const toOptions = document.querySelectorAll(".output-unit-option");
     toOptions.forEach((option) => {
       if (option.hasAttribute("disabled")) {
@@ -151,6 +147,7 @@ class UI {
   }
 
   static showResult(formulas, inputUnit, outputUnit) {
+    /*Displays result in output card*/
     if (outputUnit != "output-neutral" && inputUnit != "input-neutral") {
       document.querySelector(`#${outputUnit}-output`).innerHTML =
         formulas[`${inputUnit}${outputUnit}`];
@@ -160,6 +157,7 @@ class UI {
 
 class Operation {
   static convert(weight) {
+    /*Calculates conversion and calls showResults to display result*/
     const formulas = {
       lbsg: weight / 0.0022046,
       lbskg: weight / 2.20462,
@@ -190,5 +188,6 @@ class Operation {
 
 /*
 TODOS
-1. Attempt to DRY the code
+1. Further DRY code
+2. Stop disabling units but switch between units instead
 */
