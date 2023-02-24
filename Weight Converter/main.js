@@ -1,21 +1,27 @@
-// Prevnt display of some items.
-document.querySelector("#input-form").style.display = "none";
-
-document.querySelector("#g-block").style.display = "none";
-document.querySelector("#kg-block").style.display = "none";
-document.querySelector("#oz-block").style.display = "none";
-document.querySelector("#lbs-block").style.display = "none";
+// Elements to Hide on webpage when it loads
+const itemsToHide = [
+  "#input-form",
+  "#g-block",
+  "#kg-block",
+  "#oz-block",
+  "#lbs-block",
+];
+itemsToHide.forEach((item) => {
+  document.querySelector(item).style.display = "none";
+});
 
 /*------------EVENT LISTENERS-----------------*/
 document.querySelector("#input-unit").addEventListener("change", (e) => {
   UI.enableOutputUnit();
   UI.checkCurrentInput(e);
+  UI.reselectUnitValue();
 });
 
 document.querySelector("#output-unit").addEventListener("change", (e) => {
   UI.enableInputUnit();
   UI.checkCurrentOutput(e);
   UI.selectOutput(e);
+  UI.reselectUnitValue();
 });
 
 document.querySelector("#select-output-unit").addEventListener("click", (e) => {
@@ -28,55 +34,23 @@ document.querySelector("#select-input-unit").addEventListener("click", (e) => {
 
 document.querySelector("#Input").addEventListener("input", (e) => {
   const weight = e.target.value;
-
-  const options = document.querySelectorAll(".input-unit-option");
-  options.forEach((option) => {
-    if (
-      option.classList.contains("current") &&
-      option.innerHTML === "Pounds(lbs)"
-    ) {
-      document.querySelector("#g-outputut").innerHTML = weight / 0.0022046;
-      document.querySelector("#kg-output").innerHTML = weight / 2.20462;
-      document.querySelector("#oz-output").innerHTML = weight * 16;
-    } else if (
-      option.classList.contains("current") &&
-      option.innerHTML === "Grams(g)"
-    ) {
-      document.querySelector("#kg-output").innerHTML = weight / 1000;
-      document.querySelector("#lbs-output").innerHTML = weight / 453.6;
-      document.querySelector("#oz-output").innerHTML = weight / 28.35;
-    } else if (
-      option.classList.contains("current") &&
-      option.innerHTML === "Kilograms(kg)"
-    ) {
-      document.querySelector("#g-outputut").innerHTML = weight * 1000;
-      document.querySelector("#lbs-output").innerHTML = weight * 2.20462;
-      document.querySelector("#oz-output").innerHTML = weight * 35.274;
-    } else if (
-      option.classList.contains("current") &&
-      option.innerHTML === "Ounces(oz)"
-    ) {
-      document.querySelector("#kg-output").innerHTML = weight / 32.274;
-      document.querySelector("#lbs-output").innerHTML = weight / 16;
-      document.querySelector("#g-outputut").innerHTML = weight * 28.35;
-    }
-  });
+  Operation.convert(weight);
 });
 
 /*------------------------OOP: Classes-----------------------*/
 class UI {
   /*---------------------- INPUT UNITS---------------------------*/
   static checkCurrentInput(e) {
-    /*checks for currently selected input unit.*/
+    /*checks for currently selected input unit. Displays input window afterwards*/
     const selectedOptionIndex = e.target.options.selectedIndex;
 
     const options = document.querySelectorAll(".input-unit-option");
     options.forEach((option) => {
-      if (option.classList.contains("current")) {
-        option.classList.remove("current");
-        options[selectedOptionIndex].classList.add("current");
+      if (option.classList.contains("current-input")) {
+        option.classList.remove("current-input");
+        options[selectedOptionIndex].classList.add("current-input");
       } else {
-        options[selectedOptionIndex].classList.add("current");
+        options[selectedOptionIndex].classList.add("current-input");
       }
     });
 
@@ -88,10 +62,10 @@ class UI {
   }
 
   static disableInputUnit() {
-    /*Disables a unit from selection when it is selected as the output unit*/
+    /*Disables input unit that has been selected as the output unit*/
     const toOptions = document.querySelectorAll(".output-unit-option");
     toOptions.forEach((option) => {
-      if (option.classList.contains("current")) {
+      if (option.classList.contains("current-output")) {
         const toAttribute = option.getAttribute("value");
 
         const fromOptions = document.querySelectorAll(".input-unit-option");
@@ -116,34 +90,44 @@ class UI {
 
   /*----------------------OUTPUT UNITS---------------------------*/
   static checkCurrentOutput(e) {
+    /*checks for currently selected output unit.*/
     const selectedOptionIndex = e.target.options.selectedIndex;
     const options = document.querySelectorAll(".output-unit-option");
     options.forEach((option) => {
-      if (option.classList.contains("current")) {
-        option.classList.remove("current");
-        options[selectedOptionIndex].classList.add("current");
+      if (option.classList.contains("current-output")) {
+        option.classList.remove("current-output");
+        options[selectedOptionIndex].classList.add("current-output");
       } else {
-        options[selectedOptionIndex].classList.add("current");
+        options[selectedOptionIndex].classList.add("current-output");
       }
     });
   }
 
   static selectOutput(e) {
-    /*Removes card when a different unit is selected*/
+    /*Displays the output card of selected output unit*/
     const outputCards = document.querySelectorAll(".output-card");
     outputCards.forEach((card) => {
       card.style.display = "none";
     });
-    if (e.target.value != "neutral") {
+    if (e.target.value != "output-neutral") {
       document.getElementById(`${e.target.value}-block`).style.display =
         "block";
     }
   }
 
+  static reselectUnitValue() {
+    /*Checks value in input field and returns it convert to a new selected output unit*/
+    if (document.querySelector("#Input").value) {
+      const weight = document.querySelector("#Input").value;
+      Operation.convert(weight);
+    }
+  }
+
   static disableOutputUnit() {
+    /*Disables output unit that has been selected as the input unit*/
     const fromOptions = document.querySelectorAll(".input-unit-option");
     fromOptions.forEach((option) => {
-      if (option.classList.contains("current")) {
+      if (option.classList.contains("current-input")) {
         const fromAttribute = option.getAttribute("value");
 
         const toOptions = document.querySelectorAll(".output-unit-option");
@@ -165,9 +149,46 @@ class UI {
       }
     });
   }
+
+  static showResult(formulas, inputUnit, outputUnit) {
+    if (outputUnit != "output-neutral" && inputUnit != "input-neutral") {
+      document.querySelector(`#${outputUnit}-output`).innerHTML =
+        formulas[`${inputUnit}${outputUnit}`];
+    }
+  }
+}
+
+class Operation {
+  static convert(weight) {
+    const formulas = {
+      lbsg: weight / 0.0022046,
+      lbskg: weight / 2.20462,
+      lbsoz: weight * 16,
+      gkg: weight / 1000,
+      glbs: weight / 453.6,
+      goz: weight / 28.35,
+      kgg: weight * 1000,
+      kglbs: weight * 2.20462,
+      kgoz: weight * 35.274,
+      ozkg: weight / 35.274,
+      ozlbs: weight / 16,
+      ozg: weight * 28.35,
+    };
+
+    const inputUnit = document
+      .querySelector(".current-input")
+      .getAttribute("value");
+
+    if (document.querySelector(".current-output")) {
+      const outputUnit = document
+        .querySelector(".current-output")
+        .getAttribute("value");
+      UI.showResult(formulas, inputUnit, outputUnit);
+    }
+  }
 }
 
 /*
 TODOS
-1. 
+1. Attempt to DRY the code
 */
