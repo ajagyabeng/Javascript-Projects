@@ -94,7 +94,7 @@ class UI {
       }
     });
     // Display the input field in a unit was selected
-    if (e.target.value === "neutral") {
+    if (e.target.value === "input-neutral") {
       document.querySelector("#input-form").style.display = "none";
     } else {
       document.querySelector("#input-form").style.display = "block";
