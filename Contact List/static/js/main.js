@@ -1,5 +1,7 @@
 // Import from other JS files
 import { Store } from "./add.js";
+import { UI } from "./ui.js";
+import { Operation } from "./filter.js";
 
 /*--------------------CLASSES-----------------------------*/
 class Contact {
@@ -7,58 +9,6 @@ class Contact {
     this.name = name;
     this.phone = phone;
     this.email = email;
-  }
-}
-
-class UI {
-  static showContacts(contacts) {
-    const ul = document.querySelector("#names");
-    contacts.sort().forEach((contact) => {
-      const li = document.createElement("li");
-      li.classList.add("collection-item");
-      li.innerHTML = `<a href='#'>${contact.name}</a>`;
-      ul.appendChild(li);
-    });
-  }
-
-  static showNewContactForm() {
-    // Hides New Contact button and displays Add contact form
-    document.querySelector("#new-contact").style.display = "none";
-    document.querySelector("#contact-form").style.display = "block";
-  }
-
-  static clearContactField() {
-    // Clear input field after adding a contact
-    document.querySelector("#name").value = "";
-    document.querySelector("#phone").value = "";
-    document.querySelector("#email").value = "";
-  }
-}
-
-class Operation {
-  static filterNames() {
-    // Get value of input
-    const filterValue = document
-      .querySelector("#filter-input")
-      .value.toUpperCase();
-
-    // Get names ul
-    const ul = document.querySelector("#names");
-
-    // Get lis from ul
-    const lis = ul.querySelectorAll(".collection-item");
-
-    //Loop through collection-item lis
-    lis.forEach((li) => {
-      let a = li.getElementsByTagName("a")[0];
-
-      // Check if it matches
-      if (a.innerHTML.toUpperCase().indexOf(filterValue) > -1) {
-        li.style.display = "";
-      } else {
-        li.style.display = "none";
-      }
-    });
   }
 }
 
@@ -109,5 +59,3 @@ TODOS
 5. More actions(Hide, delete)
 6. Add contact(add country calling code to form) - countryinfo module in python
 */
-
-export { UI };
