@@ -1,6 +1,6 @@
 /*This module contains script for storing and retreiving from the database*/
 
-import { UI } from "./main.js";
+import { UI } from "./ui.js";
 
 class Store {
   static sortContacts(contacts) {
@@ -43,5 +43,5 @@ class Store {
   }
 }
 
-// export class
+/*Export so other js files can import*/
 export { Store };
