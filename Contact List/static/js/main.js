@@ -1,16 +1,7 @@
 // Import from other JS files
-import { Store } from "./add.js";
+import { Store, Contact } from "./add.js";
 import { UI } from "./ui.js";
-import { Operation } from "./filter.js";
-
-/*--------------------CLASSES-----------------------------*/
-class Contact {
-  constructor(name, phone, email) {
-    this.name = name;
-    this.phone = phone;
-    this.email = email;
-  }
-}
+import { Filter } from "./filter.js";
 
 /*--------------------EVENTS---------------------*/
 // Event Listener: Display Headers
@@ -24,7 +15,7 @@ document
 // Event Listener: Filter Names
 document
   .querySelector("#filter-input")
-  .addEventListener("keyup", Operation.filterNames);
+  .addEventListener("keyup", Filter.filterNames);
 
 // Event Listener: Add Contact to Database
 // document.querySelector("#contact-form").addEventListener("submit", (e) => {
