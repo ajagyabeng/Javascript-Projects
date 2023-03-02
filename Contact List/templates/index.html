@@ -2,25 +2,17 @@
 
 <body>
   {% block content %}
-  <div class="container">
-    <h1 class="center-align">
-      My Contacts
-    </h1>
+  <!-- New contact button -->
+  <a href="{{ url_for('add_contact') }}" id="new-contact" class="btn btn-primary mt-2">New Contact</a>
 
-    <!-- New contact button -->
-    <input type="button" id="new-contact" class="btn btn-primary mt-2" value="New Contact">
+  <!-- Search Input -->
+  <input type="text" id="filter-input" placeholder="Search names...">
+  <div id="no-contact"></div>
+  <ul class="collection with-header" id="names">
 
-    <!-- Search Input -->
-    <input type="text" id="filter-input" placeholder="Search names...">
-    <div id="no-contact"></div>
-    <ul class="collection with-header" id="names">
-
-    </ul>
-  </div>
+  </ul>
   {% endblock %}
   {% block script %}
   <script src="../static/js/main.js" type="module"></script>
   {% endblock %}
 </body>
-
-</html>
