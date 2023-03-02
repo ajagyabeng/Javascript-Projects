@@ -2,6 +2,14 @@
 
 import { UI } from "./ui.js";
 
+class Contact {
+  constructor(name, phone, email) {
+    this.name = name;
+    this.phone = phone;
+    this.email = email;
+  }
+}
+
 class Store {
   static sortContacts(contacts) {
     /*Sorts contacts alphabetically*/
@@ -44,4 +52,4 @@ class Store {
 }
 
 /*Export so other js files can import*/
-export { Store };
+export { Store, Contact };
