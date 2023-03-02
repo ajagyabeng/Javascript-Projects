@@ -1,1 +1,22 @@
 {extends 'template.html'}
+
+{% block content %}
+<!-- Add contact input -->
+<form id="contact-form">
+  <div class="form-group row">
+    <div class="col">
+      <input type="text" id="name" placeholder="Add name...">
+    </div>
+    <div class="col">
+      <input type="number" id="phone" placeholder="Add Phone Number...">
+    </div>
+    <div class="col">
+      <input type="email" id="email" placeholder="Add Email...">
+    </div>
+  </div>
+  <input type="submit" class="btn btn-primary" value="Add Contact">
+</form>
+{% endblock %}
+
+{% block script %}
+{% end block %}
