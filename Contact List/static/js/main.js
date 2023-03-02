@@ -14,6 +14,8 @@ document
 
 /*
 TODOS
+UPDATE CONTACT
+DELETE CONTACT
 1. When adding new contact, check if the exact name already exists(warn to make changes to avoid confusion)
 2. When adding new contact, check if the exact number already exist in contacts(show number and name which it is stored to)
 3. Add pop up when name is clicked(displays Name, Phone, Email )
