@@ -7,11 +7,6 @@ import { Filter } from "./filter.js";
 // Event Listener: Display Headers
 document.addEventListener("DOMContentLoaded", Store.getContacts);
 
-// Event Listener: Show Contact form
-document
-  .querySelector("#new-contact")
-  .addEventListener("click", Contact.newContactPage);
-
 // Event Listener: Filter Names
 document
   .querySelector("#filter-input")
