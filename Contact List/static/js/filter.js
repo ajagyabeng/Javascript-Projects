@@ -1,4 +1,4 @@
-class Operation {
+class Filter {
   static filterNames() {
     // Get value of input
     const filterValue = document
@@ -25,4 +25,4 @@ class Operation {
   }
 }
 
-export { Operation };
+export { Filter };
