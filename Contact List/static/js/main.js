@@ -1,5 +1,5 @@
 // Import from other JS files
-import { Store, Contact } from "./add.js";
+import { Store, Contact } from "./contact.js";
 import { UI } from "./ui.js";
 import { Filter } from "./filter.js";
 
@@ -10,35 +10,12 @@ document.addEventListener("DOMContentLoaded", Store.getContacts);
 // Event Listener: Show Contact form
 document
   .querySelector("#new-contact")
-  .addEventListener("click", UI.showNewContactForm);
+  .addEventListener("click", Contact.newContactPage);
 
 // Event Listener: Filter Names
 document
   .querySelector("#filter-input")
   .addEventListener("keyup", Filter.filterNames);
-
-// Event Listener: Add Contact to Database
-// document.querySelector("#contact-form").addEventListener("submit", (e) => {
-//   e.preventDefault();
-
-//   // Get hold of input value
-//   const name = document.querySelector("#name").value;
-//   const phone = document.querySelector("#phone").value;
-//   const email = document.querySelector("#email").value;
-
-//   // validate input
-//   if (name === "" || phone === "") {
-//     alert("Please fill all fields"); // change this later
-//   } else {
-//     const contact = new Contact(name, phone, email);
-
-//     //Hide Contact form
-//     UI.hideContactForm();
-//     //Store contact to database
-//     Store.addContact(contact);
-//     UI.clearContactField();
-//   }
-// });
 
 /*
 TODOS
