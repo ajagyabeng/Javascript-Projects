@@ -1,29 +1,3 @@
-// Get input element
-const filterInput = document.querySelector("#filter-input");
-
-function filterNames() {
-  // Get value of input
-  const filterValue = filterInput.value.toUpperCase();
-
-  // Get names ul
-  const ul = document.querySelector("#names");
-
-  // Get lis from ul
-  const lis = ul.querySelectorAll(".collection-item");
-
-  //Loop through collection-item lis
-  lis.forEach((li) => {
-    let a = li.getElementsByTagName("a")[0];
-
-    // Check if it matches
-    if (a.innerHTML.toUpperCase().indexOf(filterValue) > -1) {
-      li.style.display = "";
-    } else {
-      li.style.display = "none";
-    }
-  });
-}
-
 /*--------------------CLASSES-----------------------------*/
 class Contact {
   constructor(name, phone, email) {
@@ -34,69 +8,58 @@ class Contact {
 }
 
 class Store {
+  static sortContacts(contacts) {
+    /*Sorts contacts alphabetically*/
+    const sortedContacts = contacts.sort((a, b) =>
+      a.name < b.name ? -1 : a.name > b.name ? 1 : 0
+    );
+    return sortedContacts;
+  }
+
   static getContacts() {
-    // Retrieves contact from localStorage.
-    let contacts;
-
-    if (localStorage.getItem("contacts") === null) {
-      contacts = [];
-    } else {
-      contacts = JSON.parse(localStorage.getItem("contacts"));
-
-      /*SORT CONTACTS BASED ON NAMES*/
-      contacts.sort((a, b) => {
-        const nameA = a.name.toUpperCase();
-        const nameB = b.name.toUpperCase();
-
-        /*In ASCENDING order: change the operators to SORT in DESCENDING order*/
-        if (nameA < nameB) {
-          return 1;
+    fetch("/contacts")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.contacts) {
+          const contacts = Store.sortContacts(data.contacts);
+          UI.showContacts(contacts);
+        } else {
+          document.querySelector("#no-contact").innerHTML = data.message;
+          setTimeout(
+            () =>
+              (document.querySelector("#no-contact").style.display = "none"),
+            5000
+          );
         }
-        if (nameA > nameB) {
-          return -1;
-        }
-        return 0;
       });
-
-      // /*-------------Using Ternary operator-------------*/
-      // let sortedContacts = contacts.sort((a, b) =>
-      //   a.name < b.name ? 1 : a.name > b.name ? -1 : 0
-      // );
-      // return sortedContacts;
-    }
-    return contacts;
   }
 
   static addContact(contact) {
-    const contacts = Store.getContacts();
-
-    contacts.push(contact);
-
-    localStorage.setItem("contacts", JSON.stringify(contacts));
+    /*Add to database*/
+    const requestDetails = {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(contact),
+    };
+    fetch("/add", requestDetails);
   }
 }
 
 class UI {
-  static displayHeaders() {
-    // Adds header Alphabet (A, B, C, etc.)
-    const contacts = Store.getContacts();
-    let contactHeaders = [];
-    contacts.forEach((contact) => {
-      if (!contactHeaders.includes(contact.name[0].toUpperCase())) {
-        contactHeaders.push(contact.name[0].toUpperCase());
-      }
-    });
-
+  static showContacts(contacts) {
     const ul = document.querySelector("#names");
-    contactHeaders.sort().forEach((header) => {
+    contacts.sort().forEach((contact) => {
       const li = document.createElement("li");
-      li.classList.add("collection-header");
-      li.innerHTML = `<h5>${header}</h5>`;
+      li.classList.add("collection-item");
+      li.innerHTML = `<a href='#'>${contact.name}</a>`;
       ul.appendChild(li);
     });
   }
 
-  static newContact() {
+  static showNewContactForm() {
     // Hides New Contact button and displays Add contact form
     document.querySelector("#new-contact").style.display = "none";
     document.querySelector("#contact-form").style.display = "block";
@@ -108,47 +71,6 @@ class UI {
     document.querySelector("#new-contact").style.display = "block";
   }
 
-  static addContactToList() {
-    const contacts = Store.getContacts();
-    // Get all the contact headers in a list
-    const headers = document.querySelectorAll(".collection-header");
-
-    contacts.forEach((contact) => {
-      // create li element for each contact
-      const li = document.createElement("li");
-      li.classList.add("collection-item");
-      li.innerHTML = `<a href='#'>${contact.name}</a>`;
-
-      //Loop through headers to compare to first letter of contact names
-      headers.forEach((header) => {
-        if (
-          contact.name[0].toUpperCase() === header.firstElementChild.textContent
-          // Locate which header to place contact under
-        ) {
-          li.classList.add(`${header.firstElementChild.textContent}-contacts`);
-          header.after(li);
-        }
-      });
-    });
-  }
-
-  static resetHeaders() {
-    // Allows new header to be added if new contact name added starts with a new alphabet.
-    const displayedHeaders = document.querySelectorAll(".collection-header");
-    displayedHeaders.forEach((header) => {
-      header.remove();
-    });
-  }
-
-  static resetContacts() {
-    // Allows new contact name to be added alphabetically
-    const displayedContacts = document.querySelectorAll(".collection-item");
-
-    displayedContacts.forEach((contact) => {
-      contact.remove();
-    });
-  }
-
   static clearContactField() {
     // Clear input field after adding a contact
     document.querySelector("#name").value = "";
@@ -157,34 +79,53 @@ class UI {
   }
 }
 
+class Operation {
+  static filterNames() {
+    // Get value of input
+    const filterValue = document
+      .querySelector("#filter-input")
+      .value.toUpperCase();
+
+    // Get names ul
+    const ul = document.querySelector("#names");
+
+    // Get lis from ul
+    const lis = ul.querySelectorAll(".collection-item");
+
+    //Loop through collection-item lis
+    lis.forEach((li) => {
+      let a = li.getElementsByTagName("a")[0];
+
+      // Check if it matches
+      if (a.innerHTML.toUpperCase().indexOf(filterValue) > -1) {
+        li.style.display = "";
+      } else {
+        li.style.display = "none";
+      }
+    });
+  }
+}
+
 /*--------------------EVENTS---------------------*/
 // Event Listener: Display Headers
-document.addEventListener("DOMContentLoaded", UI.displayHeaders());
-
-// Event Listener: Display Contacts
-document.addEventListener("DOMContentLoaded", UI.addContactToList());
+document.addEventListener("DOMContentLoaded", Store.getContacts);
 
 // Event Listener: Hide Contact form
 document.addEventListener("DOMContentLoaded", UI.hideContactForm());
 
 // Event Listener: Show Contact form
-document.querySelector("#new-contact").addEventListener("click", UI.newContact);
+document
+  .querySelector("#new-contact")
+  .addEventListener("click", UI.showNewContactForm);
 
 // Event Listener: Filter Names
-filterInput.addEventListener("keyup", filterNames);
+document
+  .querySelector("#filter-input")
+  .addEventListener("keyup", Operation.filterNames);
 
-// Event Listener: Add Contact to Local Storage and UI
+// Event Listener: Add Contact to Database
 document.querySelector("#contact-form").addEventListener("submit", (e) => {
   e.preventDefault();
-
-  // Remove already displayed contacts.
-  UI.resetContacts();
-
-  // Reset Headers
-  UI.resetHeaders();
-
-  //Hide Contact form
-  UI.hideContactForm();
 
   // Get hold of input value
   const name = document.querySelector("#name").value;
@@ -195,14 +136,12 @@ document.querySelector("#contact-form").addEventListener("submit", (e) => {
   if (name === "" || phone === "") {
     alert("Please fill all fields"); // change this later
   } else {
-    const contact = new Contact(
-      `${name[0].toUpperCase()}${name.substring(1)}`,
-      phone,
-      email
-    ); // Capitalize the input
-    Store.addContact(contact); //Store contact to localStorage
-    UI.displayHeaders(); // add Headers to UI
-    UI.addContactToList(); // add contact to UI
+    const contact = new Contact(name, phone, email);
+
+    //Hide Contact form
+    UI.hideContactForm();
+    //Store contact to database
+    Store.addContact(contact);
     UI.clearContactField();
   }
 });
@@ -215,4 +154,5 @@ TODOS
 4. Connect to server
 4i. Add labels(Friends, family, work, school, etc.)
 5. More actions(Hide, delete)
+6. Add contact(add country calling code to form) - countryinfo module in python
 */
