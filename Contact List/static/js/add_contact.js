@@ -1,5 +1,5 @@
 import { UI } from "../js/ui.js";
-import { Store } from "../js/contact.js";
+import { Store, Contact } from "../js/contact.js";
 
 // Event Listener: Add Contact to Database
 document.querySelector("#contact-form").addEventListener("submit", (e) => {
@@ -16,8 +16,6 @@ document.querySelector("#contact-form").addEventListener("submit", (e) => {
   } else {
     const contact = new Contact(name, phone, email);
 
-    //Hide Contact form
-    UI.hideContactForm();
     //Store contact to database
     Store.addContact(contact);
     UI.clearContactField();
