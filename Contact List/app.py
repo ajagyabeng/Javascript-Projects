@@ -38,8 +38,8 @@ def add_contact():
         data = request.get_json()
         try:
             add_to_db(data)
-            contacts = Contact.query.order_by(Contact.name.desc()).all()
+            contacts = Contact.query.all()
             return {"contacts": format_contacts(contacts)}
         except:
             return {"message": "Unable to add to database"}
-    return render_template("new.html")
+    return render_template("add_contact.html")
