@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from models import setup_db, create_tables, Contact, add_to_db
 from dotenv import find_dotenv, load_dotenv
 import requests
+import time
 
 app = Flask(__name__)
 setup_db(app)
@@ -11,10 +12,12 @@ create_tables(app)
 
 @app.route("/")
 def home():
+    """Renders the home page of the app."""
     return render_template("index.html")
 
 
 def format_contacts(contacts):
+    """Formats contacts from the database. Returns a list of contact dicts"""
     contact_list = []
     for contact in contacts:
         contact_list.append({
@@ -39,12 +42,13 @@ def get_contacts():
 
 @app.route("/add", methods=["GET", "POST"])
 def add_contact():
+
     if request.method == "POST":
         data = request.get_json()
         try:
             add_to_db(data)
-            contacts = Contact.query.all()
-            return {"contacts": format_contacts(contacts)}
+            phone = data["phone"]
+            return redirect(url_for("view_contact", phone=phone))
         except:
             return {"message": "Unable to add to database"}
     return render_template("add_contact.html")
@@ -52,6 +56,7 @@ def add_contact():
 
 @app.route("/person")
 def view_contact():
-    person_id = request.args.get("id")
-    person = Contact.query.get(person_id)
+    phone = request.args.get("phone")
+    person = Contact.query.filter_by(phone=phone).first()
+    print(person)
     return render_template("person.html", contact=person)
