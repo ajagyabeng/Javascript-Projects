@@ -38,5 +38,5 @@ class Contact(db.Model):
     __tablename__ = "contacts"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    phone = db.Column(db.String, unique=True)
+    phone = db.Column(db.Integer, unique=True)
     email = db.Column(db.String)
