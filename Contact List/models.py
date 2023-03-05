@@ -34,6 +34,11 @@ def add_to_db(data):
     db.session.commit()
 
 
+def delete_from_db(contact):
+    db.session.delete(contact)
+    db.session.commit()
+
+
 class Contact(db.Model):
     __tablename__ = "contacts"
     id = db.Column(db.Integer, primary_key=True)
