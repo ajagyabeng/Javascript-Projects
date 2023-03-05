@@ -3,14 +3,11 @@
 import { UI } from "./ui.js";
 
 class Contact {
+  /*Constructs a contact object*/
   constructor(name, phone, email) {
     this.name = name;
     this.phone = phone;
     this.email = email;
-  }
-
-  static newContactPage() {
-    fetch("/add");
   }
 }
 
@@ -24,6 +21,7 @@ class Store {
   }
 
   static getContacts() {
+    /*Gets contact and diplays them in the UI*/
     fetch("/contacts")
       .then((res) => res.json())
       .then((data) => {

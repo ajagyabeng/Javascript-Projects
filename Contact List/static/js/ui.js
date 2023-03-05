@@ -2,6 +2,7 @@
 
 class UI {
   static showContacts(contacts) {
+    /*Adds each contact to the UI*/
     const ul = document.querySelector("#names");
     contacts.sort().forEach((contact) => {
       const li = document.createElement("li");
@@ -12,13 +13,13 @@ class UI {
   }
 
   static showNewContactForm() {
-    // Hides New Contact button and displays Add contact form
+    // Hides New Contact button and displays Add contact form. Functionality not needed any longer
     document.querySelector("#new-contact").style.display = "none";
     document.querySelector("#contact-form").style.display = "block";
   }
 
   static clearContactField() {
-    // Clear input field after adding a contact
+    // Clear input field after adding a contact. Functionality not needed any longer
     document.querySelector("#name").value = "";
     document.querySelector("#phone").value = "";
     document.querySelector("#email").value = "";
