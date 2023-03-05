@@ -6,7 +6,7 @@ class UI {
     contacts.sort().forEach((contact) => {
       const li = document.createElement("li");
       li.classList.add("collection-item");
-      li.innerHTML = `<a href="/person?id=${contact.id}">${contact.name}</a>`;
+      li.innerHTML = `<a href="/person?phone=${contact.phone}">${contact.name}</a>`;
       ul.appendChild(li);
     });
   }
