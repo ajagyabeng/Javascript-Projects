@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from models import setup_db, create_tables, Contact, add_to_db
+from models import setup_db, create_tables, Contact, add_to_db, delete_from_db
 from dotenv import find_dotenv, load_dotenv
 import requests
 import time
@@ -44,7 +44,8 @@ def get_contacts():
 def add_contact():
 
     if request.method == "POST":
-        data = request.get_json()
+        data = request.form.to_dict()
+        print(data)
         try:
             add_to_db(data)
             phone = data["phone"]
@@ -60,3 +61,11 @@ def view_contact():
     person = Contact.query.filter_by(phone=phone).first()
     print(person)
     return render_template("person.html", contact=person)
+
+
+@app.route("/delete")
+def delete():
+    phone = request.args.get("phone")
+    contact = Contact.query.filter_by(phone=phone).first()
+    delete_from_db(contact)
+    return redirect(url_for("home"))
