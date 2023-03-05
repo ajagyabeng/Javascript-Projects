@@ -18,7 +18,8 @@
         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-cloud-arrow-down me-3"></i>Export</a>
         </li>
         <li><a class="dropdown-item" href="#"><i class="fa-solid fa-folder-minus me-3"></i>Hide from contacts</a></li>
-        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash-can me-3"></i>Delete</a></li>
+        <li><a class="dropdown-item" href="{{ url_for('delete', phone=contact.phone) }}"><i
+              class="fa-solid fa-trash-can me-3"></i>Delete</a></li>
       </ul>
     </div>
     <a href="" class="btn btn-primary btn-sm">Edit</a>
