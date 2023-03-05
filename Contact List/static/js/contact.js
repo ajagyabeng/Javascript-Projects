@@ -11,7 +11,6 @@ class Contact {
 
   static newContactPage() {
     fetch("/add");
-    console.log("click");
   }
 }
 
