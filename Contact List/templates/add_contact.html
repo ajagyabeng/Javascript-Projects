@@ -5,18 +5,19 @@
   {% block content %}
   <!-- Add contact input -->
   <form id="contact-form" action="{{ url_for('add_contact') }}" method="post">
+    {{ form.csrf_token }}
     <div class="form-group row">
       <div class="col">
-        <input type="text" id="name" placeholder="Add name..." name="name">
+        {{ form.name(placeholder="Add name...") }}
       </div>
       <div class="col">
-        <input type="number" id="phone" placeholder="Add Phone Number..." name="phone">
+        {{ form.phone(placeholder="Add phone number...") }}
       </div>
       <div class="col">
-        <input type="email" id="email" placeholder="Add Email..." name="email">
+        {{ form.email(placeholder="Add email...") }}
       </div>
     </div>
-    <input type="submit" class="btn btn-primary" value="Add Contact">
+    {{ form.submit(class="btn btn-primary") }}
   </form>
   {% endblock %}
 </body>
