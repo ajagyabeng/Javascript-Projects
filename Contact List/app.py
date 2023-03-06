@@ -45,7 +45,6 @@ def add_contact():
 
     if request.method == "POST":
         data = request.form.to_dict()
-        print(data)
         try:
             add_to_db(data)
             phone = data["phone"]
@@ -59,7 +58,6 @@ def add_contact():
 def view_contact():
     phone = request.args.get("phone")
     person = Contact.query.filter_by(phone=phone).first()
-    print(person)
     return render_template("person.html", contact=person)
 
 
