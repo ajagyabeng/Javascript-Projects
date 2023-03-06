@@ -1,10 +1,18 @@
 from flask import Flask, render_template, request, redirect, url_for
 from models import setup_db, create_tables, Contact, add_to_db, delete_from_db
+from create_app import create_app
+from forms import ContactForm
 from dotenv import find_dotenv, load_dotenv
-import requests
-import time
+import os
 
-app = Flask(__name__)
+# Find environment variables
+dotenv_path = find_dotenv()
+load_dotenv(dotenv_path)
+secret_key = os.getenv("APP_SECRET_KEY")
+
+# Create flask app
+app = create_app(secret_key)
+
 setup_db(app)
 
 create_tables(app)
@@ -42,16 +50,17 @@ def get_contacts():
 
 @app.route("/add", methods=["GET", "POST"])
 def add_contact():
-
-    if request.method == "POST":
+    form = ContactForm()
+    if request.method == "POST" and form.validate_on_submit():
         data = request.form.to_dict()
         try:
             add_to_db(data)
+            print(data)
             phone = data["phone"]
             return redirect(url_for("view_contact", phone=phone))
         except:
             return {"message": "Unable to add to database"}
-    return render_template("add_contact.html")
+    return render_template("add_contact.html", form=form)
 
 
 @app.route("/person")
