@@ -28,6 +28,7 @@ def create_tables(app):
 
 
 def add_to_db(data):
+    """Adds a contact to the database"""
     contact = Contact(name=data["name"].capitalize(),
                       phone=data["phone"], email=data["email"])
     db.session.add(contact)
@@ -35,7 +36,7 @@ def add_to_db(data):
 
 
 def edit_in_db(data, person):
-    print(data)
+    """Edits a contact in the database"""
     person.name = data["name"]
     person.phone = int(data["phone"])
     person.email = data["email"]
@@ -43,6 +44,7 @@ def edit_in_db(data, person):
 
 
 def delete_from_db(contact):
+    """Deletes a contact from the database"""
     db.session.delete(contact)
     db.session.commit()
 
