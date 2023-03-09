@@ -100,9 +100,13 @@ class Store {
         const contact = data["contact"];
         document.querySelector("#contact-name").textContent = contact.name;
         document.querySelector("#phone-display").textContent = contact.phone;
-        if (data.phone === "") {
+        console.log(contact.email);
+        // WORK ON MAKING THIS WORK
+        if (data.phone !== "") {
+          console.log(true);
           document.querySelector("#email-display").textContent = "Add email";
         } else {
+          console.log(false);
           document.querySelector("#email-display").textContent = contact.email;
         }
       })
