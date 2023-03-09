@@ -39,6 +39,21 @@ class Store {
       });
   }
 
+  static getNewContact(e) {
+    e.preventDefault();
+
+    // Get hold of input value
+    const name = document.querySelector("#name").value;
+    const phone = document.querySelector("#phone").value;
+    const email = document.querySelector("#email").value;
+
+    const contact = new Contact(name, phone, email);
+
+    UI.clearContactField();
+    //Store contact to database
+    Store.addContact(contact);
+  }
+
   static addContact(contact) {
     /*Add to database*/
     const requestDetails = {
@@ -50,6 +65,7 @@ class Store {
       body: JSON.stringify(contact),
     };
     fetch("/add", requestDetails);
+    // location.assign("http://127.0.0.1:5000/");
   }
 }
 
