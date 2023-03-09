@@ -79,7 +79,8 @@ class Store {
     const name = document.querySelector("#name").value;
     const phone = document.querySelector("#phone").value;
     const email = document.querySelector("#email").value;
-    const csrfToken = document.querySelector("#csrf_token").value;
+    const csrfToken =
+      document.querySelector("#csrf_token").value; /*Work on modifying this*/
 
     const contact = new Contact(name, phone, email);
 
@@ -106,7 +107,6 @@ class Store {
       })
       .catch((error) => console.log(error.message));
 
-    // add newly edited content to be displayed
     UI.clearContactField;
     editForm.style.display = "none";
     contactDetails.style.display = "block";
