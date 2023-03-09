@@ -67,6 +67,56 @@ class Store {
     fetch("/add", requestDetails);
     // location.assign("http://127.0.0.1:5000/");
   }
+
+  static editContact(e, editForm, contactDetails) {
+    e.preventDefault();
+
+    const person_id = document
+      .querySelector("#contact-name")
+      .getAttribute("data-contact-id");
+
+    // Get hold of input value
+    const name = document.querySelector("#name").value;
+    const phone = document.querySelector("#phone").value;
+    const email = document.querySelector("#email").value;
+    const csrfToken = document.querySelector("#csrf_token").value;
+
+    const contact = new Contact(name, phone, email);
+
+    const requestDetails = {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-type": "application/json",
+        "X-CSRF-TOKEN": csrfToken,
+      },
+      body: JSON.stringify(contact),
+    };
+    fetch(`/person/${person_id}`, requestDetails)
+      .then((res) => res.json())
+      .then((data) => {
+        const contact = data["contact"];
+        document.querySelector("#contact-name").textContent = contact.name;
+        document.querySelector("#phone-display").textContent = contact.phone;
+        if (data.phone === "") {
+          document.querySelector("#email-display").textContent = "Add email";
+        } else {
+          document.querySelector("#email-display").textContent = contact.email;
+        }
+      })
+      .catch((error) => console.log(error.message));
+
+    // add newly edited content to be displayed
+    UI.clearContactField;
+    editForm.style.display = "none";
+    contactDetails.style.display = "block";
+  }
+
+  static cancelEdit(e, editForm, contactDetails) {
+    e.preventDefault();
+    editForm.style.display = "none";
+    contactDetails.style.display = "block";
+  }
 }
 
 /*Export so other js files can import*/
