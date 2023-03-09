@@ -71,13 +71,14 @@ def add_contact():
             return redirect(url_for("view_contact", id=person.id))
         except:
             return {"message": "Unable to add to database"}
+    else:
+        print(form.errors)
     return render_template("add_contact.html", form=form)
 
 
 @app.route("/person/<int:id>", methods=["GET", "POST"])
 def view_contact(id):
     """"""
-    # phone = request.args.get("phone")
     person = Contact.query.get(id)
     edit_form = ContactForm(
         name=person.name,
@@ -85,27 +86,12 @@ def view_contact(id):
         email=person.email
     )
     if request.method == "POST" and edit_form.validate_on_submit():
-        data = request.form.to_dict()
+        data = request.get_json()
         edit_in_db(data, person)
         return {"contact": format_contact(person)}
     else:
         print(edit_form.errors)
     return render_template("person.html", contact=format_contact(person), form=edit_form)
-
-
-@app.route("/edit/<int:phone>", methods=["GET", "POST"])
-def edit_contact(phone):
-    person = Contact.query.filter_by(phone=phone).first()
-    edit_form = ContactForm(
-        name=person.name,
-        phone=person.phone,
-        email=person.email
-    )
-    if request.method == "POST" and edit_form.validate_on_submit():
-        data = request.form.to_dict()
-        edit_in_db(data, person)
-        return redirect(url_for("view_contact", phone=phone))
-    return render_template("person.html", form=edit_form, is_edit=True, contact=person)
 
 
 @app.route("/delete")
