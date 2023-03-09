@@ -31,19 +31,26 @@
   <div class="card mb-3">
     <div class="card-body">
       <p class="card-title">Contact details</p>
-      <p class="card-text"><i class="fa-regular fa-envelope me-3"></i><a href="">Add email</a></p>
-      <p class="card-text"><i class="fa-solid fa-phone me-3"></i><a href="" id="phone-num">{{ contact.phone }}</a></p>
-      <p class="card-text"><i class="fa-solid fa-cake-candles me-3"></i><a href="">Add birthday</a></p>
+      {% if contact.email %}
+      <p class="card-text"><i class="fa-regular fa-envelope me-3"></i><a href="" id="email-display">{{ contact.email
+          }}</a></p>
+      {% else %}
+      <p class="card-text"><i class="fa-regular fa-envelope me-3"></i><a href="" id="email-display">Add email</a></p>
+      {% endif %}
+      <p class="card-text"><i class="fa-solid fa-phone me-3"></i><a href="" id="phone-display">{{ contact.phone }}</a>
+      </p>
+      <p class="card-text"><i class="fa-solid fa-cake-candles me-3"></i><a href="" id="bday-display">Add birthday</a>
+      </p>
     </div>
   </div>
 </div>
 <!-- EDIT FORM -->
-<div id="edit-form">
+<div id="edit-form-container">
   <div>
-    <i class="fa-solid fa-xmark"></i>
+    <a href="" id="cancel-edit"><i class="fa-solid fa-xmark"></i></a>
     <p>Edit contact</p>
   </div>
-  <form id="contact-form" action="" method="post">
+  <form id="edit-form" action="" method="post">
     {{ form.csrf_token }}
     <div class="form-group row">
       <div class="col">
