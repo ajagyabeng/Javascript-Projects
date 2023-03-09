@@ -69,6 +69,7 @@ class Store {
   }
 
   static editContact(e, editForm, contactDetails) {
+    /*Edits a contact*/
     e.preventDefault();
 
     const person_id = document
@@ -113,6 +114,7 @@ class Store {
   }
 
   static cancelEdit(e, editForm, contactDetails) {
+    /*Cancels editing of a contact*/
     e.preventDefault();
     editForm.style.display = "none";
     contactDetails.style.display = "block";
