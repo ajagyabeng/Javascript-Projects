@@ -34,6 +34,14 @@ def add_to_db(data):
     db.session.commit()
 
 
+def edit_in_db(data, person):
+    print(data)
+    person.name = data["name"]
+    person.phone = int(data["phone"])
+    person.email = data["email"]
+    db.session.commit()
+
+
 def delete_from_db(contact):
     db.session.delete(contact)
     db.session.commit()
