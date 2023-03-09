@@ -7,15 +7,9 @@ class UI {
     contacts.sort().forEach((contact) => {
       const li = document.createElement("li");
       li.classList.add("collection-item");
-      li.innerHTML = `<a href="/person?phone=${contact.phone}">${contact.name}</a>`;
+      li.innerHTML = `<a href="/person/${contact.id}">${contact.name}</a>`;
       ul.appendChild(li);
     });
-  }
-
-  static showNewContactForm() {
-    // Hides New Contact button and displays Add contact form. Functionality not needed any longer
-    document.querySelector("#new-contact").style.display = "none";
-    document.querySelector("#contact-form").style.display = "block";
   }
 
   static clearContactField() {
